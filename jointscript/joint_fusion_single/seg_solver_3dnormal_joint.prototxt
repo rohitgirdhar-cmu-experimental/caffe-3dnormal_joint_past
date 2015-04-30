@@ -1,0 +1,20 @@
+train_net: "/nfs/hn46/xiaolonw/cnncode/caffe-3dnormal_joint/jointscript/joint_fusion_single/seg_train_3dnormal_joint.prototxt"
+base_lr: 0.00000001
+lr_policy: "step"
+gamma: 0.1
+stepsize: 50000
+display: 5
+max_iter: 200000
+momentum: 0.9
+weight_decay: 0.0005
+#snapshot: 10000
+snapshot: 5000
+snapshot_prefix: "/nfs/hn38/users/xiaolonw/3d_fcn_data/models_single/3dnormal_"
+#solver_mode: 0
+solver_mode: GPU
+device_id: 2
+model_1: "/nfs/ladoga_no_backups/users/xiaolonw/3dnormal_fcn/pretrain_models/seg_test_global_fcn.prototxt" 
+model_2: "/nfs/ladoga_no_backups/users/xiaolonw/3dnormal_fcn/pretrain_models/seg_test_local_fcn.prototxt"
+model_3: "/nfs/ladoga_no_backups/users/xiaolonw/3dnormal_fcn/pretrain_models/seg_test_fusion_fcn.prototxt"
+
+

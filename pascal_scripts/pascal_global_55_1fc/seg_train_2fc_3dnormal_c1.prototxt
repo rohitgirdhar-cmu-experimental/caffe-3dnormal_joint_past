@@ -1,0 +1,231 @@
+name: "3d_pascal"
+layers {
+  top: "data"
+  top: "label"
+  name: "data"
+  type: WINDOW_DATA
+  window_data_param {
+    source: "/nfs/hn46/xiaolonw/cnncode/caffe-3dnormal_r_n/pascal_scripts/pascal_global_55/window_file_voc_2007_trainval.txt"
+    mean_file: "/nfs/ladoga_no_backups/users/xiaolonw/3dnormal_data/3d_mean.binaryproto"
+    batch_size: 128
+    crop_size: 55
+    mirror: true
+    fg_threshold: 0.5
+    bg_threshold: 0.5
+    fg_fraction: 0.25
+    context_pad: 4
+    crop_mode: "warp"
+  }
+}
+
+layers {
+  name: "conv2_55"
+  type: CONVOLUTION
+  bottom: "data"
+  top: "conv2_55"
+  blobs_lr: 1
+  blobs_lr: 2
+  weight_decay: 1
+  weight_decay: 0
+  convolution_param {
+    num_output: 64
+    #pad: 1
+    kernel_size: 5
+    #group: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 1
+    }
+  }
+}
+layers {
+  name: "relu2_55"
+  type: RELU
+  bottom: "conv2_55"
+  top: "conv2_55"
+}
+layers {
+  name: "pool2_55"
+  type: POOLING
+  bottom: "conv2_55"
+  top: "pool2_55"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layers {
+  name: "norm2_55"
+  type: LRN
+  bottom: "pool2_55"
+  top: "norm2_55"
+  lrn_param {
+    local_size: 5
+    alpha: 0.0001
+    beta: 0.75
+  }
+}
+layers {
+  name: "conv3_55"
+  type: CONVOLUTION
+  bottom: "norm2_55"
+  top: "conv3_55"
+  blobs_lr: 1
+  blobs_lr: 2
+  weight_decay: 1
+  weight_decay: 0
+  convolution_param {
+    num_output: 192
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layers {
+  name: "relu3_55"
+  type: RELU
+  bottom: "conv3_55"
+  top: "conv3_55"
+}
+
+
+
+layers {
+  name: "pool3_55"
+  type: POOLING
+  bottom: "conv3_55"
+  top: "pool3_55"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layers {
+  name: "norm3_55"
+  type: LRN
+  bottom: "pool3_55"
+  top: "norm3_55"
+  lrn_param {
+    local_size: 5
+    alpha: 0.0001
+    beta: 0.75
+  }
+}
+
+layers {
+  name: "conv4_55"
+  type: CONVOLUTION
+  bottom: "norm3_55"
+  top: "conv4_55"
+  blobs_lr: 1
+  blobs_lr: 2
+  weight_decay: 1
+  weight_decay: 0
+  convolution_param {
+    num_output: 384
+    pad: 1
+    kernel_size: 3
+    group: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 1
+    }
+  }
+}
+layers {
+  name: "relu4_55"
+  type: RELU
+  bottom: "conv4_55"
+  top: "conv4_55"
+}
+layers {
+  name: "conv5_55"
+  type: CONVOLUTION
+  bottom: "conv4_55"
+  top: "conv5_55"
+  blobs_lr: 1
+  blobs_lr: 2
+  weight_decay: 1
+  weight_decay: 0
+  convolution_param {
+    num_output: 256
+    pad: 1
+    kernel_size: 3
+    group: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 1
+    }
+  }
+}
+layers {
+  name: "relu5_55"
+  type: RELU
+  bottom: "conv5_55"
+  top: "conv5_55"
+}
+
+layers {
+  bottom: "conv5_55"
+  top: "pool5"
+  name: "pool5"
+  type: POOLING
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+
+
+
+layers {
+  bottom: "pool5"
+  top: "fc8_pascal"
+  name: "fc8_pascal"
+  type: INNER_PRODUCT
+  blobs_lr: 10
+  blobs_lr: 20
+  weight_decay: 1
+  weight_decay: 0
+  inner_product_param {
+    num_output: 21
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layers {
+  bottom: "fc8_pascal"
+  bottom: "label"
+  name: "loss"
+  type: SOFTMAX_LOSS
+}
+
+
