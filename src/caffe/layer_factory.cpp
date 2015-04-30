@@ -100,6 +100,8 @@ Layer<Dtype>* GetLayer(const LayerParameter& param) {
       return new CombineLayer<Dtype>(param);
   case LayerParameter_LayerType_JOINT_IMAGE_DATA:
       return new JointImageDataLayer<Dtype>(param);
+  case LayerParameter_LayerType_IMAGE_LOC_DATA:
+      return new ImageLocDataLayer<Dtype>(param);
   case LayerParameter_LayerType_RESCALE:
       return new RescaleLayer<Dtype>(param);
   case LayerParameter_LayerType_NONE:

@@ -227,6 +227,54 @@ class ImageDataLayer : public Layer<Dtype> {
 };
 
 
+// This function is used to create a pthread that prefetches the data.
+template <typename Dtype>
+void* ImageLocDataLayerPrefetch(void* layer_pointer);
+
+template <typename Dtype>
+class ImageLocDataLayer : public Layer<Dtype> {
+  // The function used to perform prefetching.
+  friend void* ImageLocDataLayerPrefetch<Dtype>(void* layer_pointer);
+
+ public:
+  explicit ImageLocDataLayer(const LayerParameter& param)
+      : Layer<Dtype>(param) {}
+  virtual ~ImageLocDataLayer();
+  virtual void SetUp(const vector<Blob<Dtype>*>& bottom,
+      vector<Blob<Dtype>*>* top);
+
+ protected:
+  virtual Dtype Forward_cpu(const vector<Blob<Dtype>*>& bottom,
+      vector<Blob<Dtype>*>* top);
+  virtual Dtype Forward_gpu(const vector<Blob<Dtype>*>& bottom,
+      vector<Blob<Dtype>*>* top);
+  virtual void Backward_cpu(const vector<Blob<Dtype>*>& top,
+      const bool propagate_down, vector<Blob<Dtype>*>* bottom) { return; }
+  virtual void Backward_gpu(const vector<Blob<Dtype>*>& top,
+      const bool propagate_down, vector<Blob<Dtype>*>* bottom) { return; }
+
+  virtual void ShuffleImages();
+
+  virtual void CreatePrefetchThread();
+  virtual void JoinPrefetchThread();
+  virtual unsigned int PrefetchRand();
+
+  shared_ptr<Caffe::RNG> prefetch_rng_;
+  vector<std::pair<std::string, int> > lines_;
+  int lines_id_;
+  int datum_channels_;
+  int datum_height_;
+  int datum_width_;
+  int datum_size_;
+  pthread_t thread_;
+  shared_ptr<Blob<Dtype> > prefetch_data_;
+  shared_ptr<Blob<Dtype> > prefetch_label_;
+  Blob<Dtype> data_mean_;
+  Caffe::Phase phase_;
+};
+
+
+
 // This function is used to create a pthread that prefetches the window data.
 template <typename Dtype>
 void* WindowDataLayerPrefetch(void* layer_pointer);

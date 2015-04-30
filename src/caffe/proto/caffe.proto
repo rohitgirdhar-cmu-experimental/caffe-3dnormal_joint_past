@@ -169,6 +169,7 @@ message LayerParameter {
     COMBINE = 38;
     JOINT_IMAGE_DATA = 39;
     RESCALE = 40;
+    IMAGE_LOC_DATA = 41;
     
   }
   optional LayerType type = 5; // the layer type from the enum above
