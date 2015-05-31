@@ -78,9 +78,9 @@ bool LocReadImageToDatum(const vector<string>& files, const int height, const in
 			{
 			  for (int w = 0; w < cv_img.cols; ++w)
 			  {
-				float tnum;
-				fread(&tnum, sizeof(float), 1, pFile);
-				datum->add_float_data(tnum );
+				  float tnum;
+				  fread(&tnum, sizeof(float), 1, pFile);
+				  datum->add_float_data(tnum);
 		//		imgIn.at<cv::Vec3b>(h, w)[2 - c] = (uchar)(tnum);
 			  }
 			}
@@ -175,8 +175,9 @@ void* ImageLocDataLayerPrefetch(void* layer_pointer)
 						Dtype datum_element = 0;
 						if(h + h_off >=0 && h + h_off < new_height && w + w_off >=0 && w + w_off < new_width)
 							datum_element =	static_cast<Dtype>(static_cast<uint8_t>(data[data_index]));
-						top_data[top_index] = (datum_element
-								- mean[data_index]) * scale;
+						//top_data[top_index] = (datum_element - mean[data_index]) * scale;
+            top_data[top_index] = (datum_element - mean[top_index]) * scale;
+            
 					}
 				}
 			}
@@ -296,10 +297,10 @@ void ImageLocDataLayer<Dtype>::SetUp(const vector<Blob<Dtype>*>& bottom,
     LOG(INFO) << "Loading mean file from" << mean_file;
     ReadProtoFromBinaryFile(mean_file.c_str(), &blob_proto);
     data_mean_.FromProto(blob_proto);
-    CHECK_EQ(data_mean_.num(), 1);
-    CHECK_EQ(data_mean_.channels(), datum_channels_);
-    CHECK_EQ(data_mean_.height(), crop_size);
-    CHECK_EQ(data_mean_.width(), crop_size);
+    //CHECK_EQ(data_mean_.num(), 1);
+    //CHECK_EQ(data_mean_.channels(), datum_channels_);
+    //CHECK_EQ(data_mean_.height(), crop_size);
+    //CHECK_EQ(data_mean_.width(), crop_size);
   } else {
     // Simply initialize an all-empty mean.
     data_mean_.Reshape(1, datum_channels_, crop_size, crop_size);
