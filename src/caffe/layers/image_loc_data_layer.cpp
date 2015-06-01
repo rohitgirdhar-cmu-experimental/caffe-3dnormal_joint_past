@@ -16,9 +16,18 @@
 #include "caffe/util/rng.hpp"
 #include "caffe/vision_layers.hpp"
 
+
+#include <cv.h>
+#include <highgui.h>
+#include <cxcore.h>
+
+
 using std::iterator;
 using std::string;
 using std::pair;
+
+
+using namespace cv;
 
 namespace caffe {
 
