@@ -50,7 +50,8 @@ bool LocReadImageToDatum(const vector<string>& files, const int height, const in
     return false;
   }
 
-  int filenum = files.size();
+  // the last file is label
+  int filenum = files.size() - 1;
 
 
 	datum->set_channels(3 * filenum);
@@ -68,7 +69,7 @@ bool LocReadImageToDatum(const vector<string>& files, const int height, const in
 		}
 	}
 
-	for(int i = 1; i < filenum - 1; i ++)
+	for(int i = 1; i < filenum; i ++)
 	{
 		string filename2 = files[i];
 		FILE *pFile = fopen(filename2.c_str(), "rb");
@@ -89,7 +90,7 @@ bool LocReadImageToDatum(const vector<string>& files, const int height, const in
 	}
 
   int num, cnt = 0;
-  string labelfile = files[filenum - 1];
+  string labelfile = files[filenum];
   FILE *fid = fopen(labelfile.c_str(), "r");
   while(fscanf(fid, "%d", &num) > 0)
   {
