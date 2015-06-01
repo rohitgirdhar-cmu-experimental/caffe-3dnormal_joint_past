@@ -150,7 +150,7 @@ int main(int argc, char** argv)
 			for(int h = 0; h < height; h ++)
 				for(int w = 0; w < width; w ++)
 					{
-						fprintf(resultfile, "%f ", (float)(bboxs->data_at(i, c, off_h + h, off_w + w)) );
+						fprintf(resultfile, "%f ", (float)(bboxs->data_at(i, c, h, w)) );
 					}
 			fprintf(resultfile, "\n");
 		}
