@@ -82,7 +82,7 @@ int main(int argc, char** argv)
 	}
 
 	Caffe::set_mode(Caffe::CPU);
-	//Caffe::SetDevice(0);
+//	Caffe::SetDevice(0);
 	NetParameter test_net_param;
 	ReadProtoFromTextFile(argv[1], &test_net_param);
 	Net<float> caffe_test_net(test_net_param);

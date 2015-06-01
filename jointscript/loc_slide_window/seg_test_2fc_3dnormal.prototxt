@@ -6,7 +6,8 @@ layers {
   top: "label_3dnorm"
   image_loc_data_param {
     source: "/home/dragon123/3dnormal_joint_cnncode/imgfile.txt"
-    mean_file: "/home/dragon123/3dnormal_joint_cnncode/models/local_model/3d_mean.binaryproto"
+#    mean_file: "/home/dragon123/3dnormal_joint_cnncode/models/local_model/3d_mean.binaryproto"
+    mean_file: "/home/dragon123/3dnormal_joint_cnncode/models/win_local_model/3d_mean.binaryproto"
     batch_size: 300
     crop_size: 55
     mirror: false
@@ -268,9 +269,9 @@ layers {
   decode_param {
     source_dict: "/home/dragon123/3dnormal_joint_cnncode/models/local_model/codebook_40.txt"
     source_triids: "/home/dragon123/3dnormal_joint_cnncode/models/local_model/triangles_40.txt"
+    # usesoft: true
   }
 }
-
 
 layers {
   name: "norm_local"
