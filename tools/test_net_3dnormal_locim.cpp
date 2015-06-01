@@ -129,7 +129,7 @@ int main(int argc, char** argv)
 		char fname[1010];
 		char fname2[1010];
 		fscanf(file, "%s", fname);
-		for(int i = 0; i < 0; i ++ ) fscanf(file, "%s", fname2);
+		for(int i = 0; i < 1; i ++ ) fscanf(file, "%s", fname2);
 		fprintf(resultfile, "%s ", fname);
 
 		int channels = bboxs->channels();
