@@ -4,7 +4,6 @@ layers {
   type: DATA
   top: "data_55"
   top: "label_3dnorm"
-  top: "label_edge"
   data_param {
     source: "/home/dragon123/3dnormal_joint_cnncode/imgfile.txt"
     mean_file: "/home/dragon123/3dnormal_joint_cnncode/models/local_model/3d_mean.binaryproto"
