@@ -171,12 +171,13 @@ void* ImageLocDataLayerPrefetch(void* layer_pointer)
 								* crop_size + h) * crop_size + w;
 						int data_index = (c * height + h + h_off) * width
 								+ w + w_off;
+            int mean_index = ( c * crop_size + h) * crop_size + w;
 
 						Dtype datum_element = 0;
 						if(h + h_off >=0 && h + h_off < new_height && w + w_off >=0 && w + w_off < new_width)
 							datum_element =	static_cast<Dtype>(static_cast<uint8_t>(data[data_index]));
 						//top_data[top_index] = (datum_element - mean[data_index]) * scale;
-            top_data[top_index] = (datum_element - mean[top_index]) * scale;
+            top_data[top_index] = (datum_element - mean[mean_index]) * scale;
             
 					}
 				}
