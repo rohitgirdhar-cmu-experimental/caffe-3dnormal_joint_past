@@ -7,7 +7,7 @@ layers {
   top: "label_edge"
   data_param {
     source: "/home/dragon123/3dnormal_joint_cnncode/imgfile.txt"
-    mean_file: ""
+    mean_file: "/home/dragon123/3dnormal_joint_cnncode/models/local_model/3d_mean.binaryproto"
     batch_size: 1
     crop_size: 55
     mirror: false
