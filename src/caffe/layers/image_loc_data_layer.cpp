@@ -145,7 +145,7 @@ void* ImageLocDataLayerPrefetch(void* layer_pointer)
 		LOG(ERROR) << "Could not fretch file " << filename;
 		return reinterpret_cast<void*>(NULL);
 	}
-	const string& data = datum.data();
+	//const string& data = datum.data();
 	const int slide_stride = image_loc_data_param.slide_stride();
 
 
@@ -159,7 +159,7 @@ void* ImageLocDataLayerPrefetch(void* layer_pointer)
 			int midh = gh * slide_stride + slide_stride / 2;
 			int midw = gw * slide_stride + slide_stride / 2;
 			int h_off = midh - crop_size / 2;
-			int w_off = midh - crop_size / 2;
+			int w_off = midw - crop_size / 2;
 
 			// Normal copy
 			for (int c = 0; c < channels; ++c)
@@ -172,13 +172,14 @@ void* ImageLocDataLayerPrefetch(void* layer_pointer)
 								* crop_size + h) * crop_size + w;
 						int data_index = (c * height + h + h_off) * width
 								+ w + w_off;
-            int mean_index = ( c * crop_size + h) * crop_size + w;
+						int mean_index = ( c * crop_size + h) * crop_size + w;
 
 						Dtype datum_element = 0;
 						if(h + h_off >=0 && h + h_off < new_height && w + w_off >=0 && w + w_off < new_width)
-							datum_element =	static_cast<Dtype>(static_cast<uint8_t>(data[data_index]));
+							datum_element = datum.float_data(data_index);
+							//datum_element =	static_cast<Dtype>(static_cast<uint8_t>(data[data_index]));
 						//top_data[top_index] = (datum_element - mean[data_index]) * scale;
-            top_data[top_index] = (datum_element - mean[mean_index]) * scale;
+						top_data[top_index] = (datum_element - mean[mean_index]) * scale;
             
 					}
 				}
