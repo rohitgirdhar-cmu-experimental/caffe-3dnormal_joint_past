@@ -215,35 +215,6 @@ layers {
 }
 
 
-layers {
-  name: "fc7_55_2"
-  type: INNER_PRODUCT
-  blobs_lr: 1
-  blobs_lr: 2
-  weight_decay: 1
-  weight_decay: 0
-  inner_product_param {
-    num_output: 4096
-    weight_filler {
-      type: "gaussian"
-      std: 0.005
-    }
-    bias_filler {
-      type: "constant"
-      value: 0.1
-    }
-  }
-  bottom: "conv5_55"
-  top: "fc7_55_2"
-}
-layers {
-  name: "relu7_55_2"
-  type: RELU
-  bottom: "fc7_55_2"
-  top: "fc7_55_2"
-}
-
-
 
 layers {
   name: "fc8_3dnorm"
@@ -267,48 +238,54 @@ layers {
   }
 }
 
+
+
 layers {
-  name: "fc8_edge"
-  type: INNER_PRODUCT
-  bottom: "fc7_55_2"
-  top: "fc8_edge"
-  blobs_lr: 50
-  blobs_lr: 100
-  weight_decay: 1
-  weight_decay: 0
-  inner_product_param {
-    num_output: 37
-    weight_filler {
-      type: "gaussian"
-      std: 0.01
-    }
-    bias_filler {
-      type: "constant"
-      value: 0
-    }
+  name: "reshape_local"
+  type: RESHAPE
+  bottom: "fc8_3dnorm"
+  top: "reshape_local"
+  reshape_param {
+    new_channel: 40 
+    new_height: 13
+    new_width: 13
+    new_patch_width: 13
+    new_patch_height: 13
   }
 }
 
 layers {
-  name: "prob_3dnorm_1"
+  name: "prob_3dnorm"
   type: MULTI_SOFTMAX
-  bottom: "fc8_3dnorm"
-  top: "prob_3dnorm_1"
+  bottom: "reshape_local"
+  top: "prob_3dnorm"
 }
 
 layers {
-  name: "prob_3dnorm_2"
-  type: SOFTMAX
-  bottom: "fc8_edge"
-  top: "prob_3dnorm_2"
+  name: "decode_local"
+  type: DECODE
+  bottom: "prob_3dnorm"
+  top: "decode_local"
+  decode_param {
+    source_dict: "/home/dragon123/3dnormal_joint_cnncode/models/local_model/codebook_40.txt"
+    source_triids: "/home/dragon123/3dnormal_joint_cnncode/models/local_model/triangles_40.txt"
+  }
 }
+
+
+layers {
+  name: "norm_local"
+  type: NORM
+  bottom: "decode_local"
+  top: "norm_local"
+}
+
 
 layers {
   top: "accuracy"
   name: "accuracy"
   type: ACCURACY
-  bottom: "prob_3dnorm_1"
-  bottom: "prob_3dnorm_2"
+  bottom: "norm_local"
   bottom: "label_3dnorm"
 }
 
