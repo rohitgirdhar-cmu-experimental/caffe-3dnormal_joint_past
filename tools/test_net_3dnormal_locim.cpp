@@ -146,7 +146,7 @@ int main(int argc, char** argv)
 		int hnum = HEIGHT / STRIDE;
 		int wnum = WIDTH / STRIDE;
 		int stride = STRIDE;
-		for (int i = 0; i < bsize; i++)
+		for(int i = 0; i < bsize; i++)
 		for(int c = 0; c < channels; c ++)
 		{
 			int hi = i / wnum;
@@ -156,15 +156,14 @@ int main(int argc, char** argv)
 			for(int h = 0; h < height; h ++)
 				for(int w = 0; w < width; w ++)
 					{
-						output_mat[c * HEIGHT * WIDTH + (off_w + w) * HEIGHT + off_h + h ] = (float)(bboxs->data_at(i, c, h, w));
-
-						//fprintf(resultfile, "%f ", (float)(bboxs->data_at(i, c, h, w)) );
+						// output_mat[c * HEIGHT * WIDTH + (off_w + w) * HEIGHT + off_h + h ] = (float)(bboxs->data_at(i, c, h, w));
+						fprintf(resultfile, "%f ", (float)(bboxs->data_at(i, c, h, w)) );
 					}
-			//fprintf(resultfile, "\n");
+			fprintf(resultfile, "\n");
 		}
-		for(int i = 0; i < HEIGHT * WIDTH * 3; i ++) 
-			fprintf(resultfile, "%f ", output_mat[i] );
-		fprintf(resultfile, "\n");
+		//for(int i = 0; i < HEIGHT * WIDTH * 3; i ++) 
+		//	fprintf(resultfile, "%f ", output_mat[i] );
+		//fprintf(resultfile, "\n");
 
 
 	}
