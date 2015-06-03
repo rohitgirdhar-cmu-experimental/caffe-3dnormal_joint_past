@@ -15,9 +15,10 @@
 #include "caffe/util/rng.hpp"
 #include "caffe/vision_layers.hpp"
 
-#include <cv.h>
-#include <highgui.h>
-#include <cxcore.h>
+//#include <cv.h>
+//#include <highgui.h>
+//#include <cxcore.h>
+#include <opencv2/opencv.hpp>
 
 using std::string;
 using namespace cv;
