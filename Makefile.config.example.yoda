@@ -53,12 +53,13 @@ INCLUDE_DIRS += /opt/glog/include/ /home/rgirdhar/Software/utils/gflags/install/
 INCLUDE_DIRS += /opt/atlas/st/include/ /opt/atlas/mt/include
 INCLUDE_DIRS += /home/xiaolonw/leveldb/include/ /home/xiaolonw/mdb/libraries/liblmdb
 INCLUDE_DIRS += /home/rgirdhar/Software/vision/opencv/install/include/
+INCLUDE_DIRS += /home/rgirdhar/Software/utils/old/protobuf-2.6.0/src
 
 LIBRARY_DIRS += /opt/glog/lib/ /home/rgirdhar/Software/utils/gflags/install/lib/
 LIBRARY_DIRS += /home/xiaolonw/leveldb/ /home/xiaolonw/mdb/libraries/liblmdb
 LIBRARY_DIRS += /home/rgirdhar/Software/vision/opencv/install/lib/
 LIBRARY_DIRS += /opt/atlas/st/lib/ /opt/atlas/mt/lib/
-
+LIBRARY_DIRS += /home/rgirdhar/Software/utils/old/protobuf-2.6.0/install/lib/
 
 BUILD_DIR := build
 DISTRIBUTE_DIR := distribute
