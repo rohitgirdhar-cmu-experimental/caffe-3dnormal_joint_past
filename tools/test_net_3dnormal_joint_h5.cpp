@@ -127,6 +127,10 @@ int main(int argc, char** argv)
   hsize_t dims[2] = {data_counts, NORMALS_DIM};
   hid_t file_space = H5Screate_simple(2, dims, NULL);
   hid_t plist = H5Pcreate(H5P_DATASET_CREATE);
+  H5Pset_layout(plist, H5D_CHUNKED);
+  hsize_t chunk_dims[2] = {10, NORMALS_DIM};
+  H5Pset_chunk(plist, 2, chunk_dims);
+  H5Pset_deflate(plist, 6);
   hid_t dset = H5Dcreate(file, "normals", H5T_NATIVE_FLOAT, file_space, H5P_DEFAULT, plist, H5P_DEFAULT);
   H5Pclose(plist);
   H5Sclose(file_space);
@@ -171,8 +175,8 @@ int main(int argc, char** argv)
 		}
 	}
   H5Sclose(mem_space);
-  H5Sclose(dset);
-  H5Sclose(file);
+  H5Dclose(dset);
+  H5Fclose(file);
 
 	return 0;
 }
